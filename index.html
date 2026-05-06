@@ -1062,6 +1062,12 @@ html, body {
     <div id="toast"></div>
   </div>
   <script>
+window.addEventListener('error', (ev) => {
+  const box = document.createElement('pre');
+  box.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#000;color:#f88;padding:20px;font:12px ui-monospace,monospace;white-space:pre-wrap;overflow:auto;margin:0;';
+  box.textContent = 'ERRO:\n' + (ev.message || '') + '\n\n' + ((ev.error && ev.error.stack) || '') + '\n\nUserAgent: ' + navigator.userAgent;
+  document.body.appendChild(box);
+});
 /* CASO SOMBRIO — detective noir game */
 (() => {
 'use strict';
@@ -1601,9 +1607,7 @@ function transitionTo(builder) {
   screen.className = 'screen';
   screenContainer.appendChild(screen);
   builder(screen);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => screen.classList.add('active'));
-  });
+  setTimeout(() => screen.classList.add('active'), 30);
   currentScreen = screen;
   return screen;
 }
